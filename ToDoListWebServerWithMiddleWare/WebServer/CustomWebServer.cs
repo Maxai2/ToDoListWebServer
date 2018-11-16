@@ -3,11 +3,12 @@ using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Text;
+using System.Web;
 using ToDoListWebServerWithMiddleWare.Services;
 
 namespace ToDoListWebServerWithMiddleWare.Server
 {
-    class ToDoWebServer
+    class CustomWebServer
     {
         private readonly string ip;
         private readonly int port;
@@ -15,7 +16,7 @@ namespace ToDoListWebServerWithMiddleWare.Server
         private HttpListener listener;
         ToDoService doService;
 
-        public ToDoWebServer(string ip, int port)
+        public CustomWebServer(string ip, int port)
         {
             this.ip = ip;
             this.port = port;

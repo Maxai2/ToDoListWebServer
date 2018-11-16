@@ -20,7 +20,7 @@ namespace ToDoListWebServerWithMiddleWare.Services
 
     class ToDoService
     {
-        private List<toDoItem> toDoList = new List<toDoItem>();
+        private static List<toDoItem> toDoList = new List<toDoItem>();
 
         public List<toDoItem> GetToDoList()
         {
