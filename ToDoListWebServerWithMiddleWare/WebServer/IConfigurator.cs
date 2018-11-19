@@ -9,7 +9,7 @@
     {
         public void ConfiguteMiddleWare(MiddleWareBuilder builder)
         {
-            //builder.Use<>
+            builder.Use<AuthorizationMiddleWare>().Use<DynamicMiddleWare>();
         }
     }
 }

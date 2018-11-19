@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ToDoListWebServerWithMiddleWare.Server;
+using ToDoListWebServerWithMiddleWare.WebServer;
 
 namespace ToDoListWebServerWithMiddleWare
 {
@@ -12,7 +13,7 @@ namespace ToDoListWebServerWithMiddleWare
         static void Main(string[] args)
         {
             CustomWebServer webServer = new CustomWebServer("127.0.0.1", 5600);
-            //webServer.Configure
+            webServer.Configure<Configurator>();
 
             webServer.Start();
 

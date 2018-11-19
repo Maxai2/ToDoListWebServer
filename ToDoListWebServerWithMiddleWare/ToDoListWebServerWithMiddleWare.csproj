@@ -47,7 +47,9 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\UserService.cs" />
+    <Compile Include="WebServer\AuthorizationMiddleWare.cs" />
     <Compile Include="WebServer\DelegateMiddleWare.cs" />
+    <Compile Include="WebServer\DynamicMiddleWare.cs" />
     <Compile Include="WebServer\IConfigurator.cs" />
     <Compile Include="WebServer\IMiddleWare.cs" />
     <Compile Include="WebServer\MiddleWareBuilder.cs" />
