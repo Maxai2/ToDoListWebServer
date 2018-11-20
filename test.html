@@ -7,19 +7,18 @@
     <title>Document</title>
 </head>
 <body>
-    <div style="margin-left: 50%;">
-
-        <label style="margin-left: ">Login</label>
+    <div style='margin: 0 auto;' >
+        <br>
+        <label style='font-weight: bold; font-size: 20px;'>Home</label>
         <br>
         <br>
-        <input type="text">
+        <form method='POST' action='http://127.0.0.1/toDoList?token=qwerty'>
+            <input type='submit' value='List ToDo' style='height: 30px; width: 100px; background-color: transparent;'>
+        </form>
         <br>
-        <br>
-        <input type="password">
-        <br>
-        <br>
-        
-        <button style="margin-left: 25%">Enter</button>
-    </div>
+        <form method='POST' action='http://127.0.0.1/login'>
+            <input type='submit' value='Exit' style='height: 30px; width: 100px; background-color: transparent;'>
+        </form>
+    </div>  
 </body>
 </html>
