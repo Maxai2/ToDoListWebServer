@@ -22,24 +22,29 @@ namespace ToDoListWebServerWithMiddleWare.Services
     {
         private static Dictionary<int, List<toDoItem>> userToDoList = new Dictionary<int, List<toDoItem>>();
 
-        static UserService userService = new UserService();
+        static ToDoService()
+        {
+            userToDoList.Add('0', new List<toDoItem>());
+            userToDoList.Add('1', new List<toDoItem>());
+            userToDoList.Add('2', new List<toDoItem>());
+        }
 
         public List<toDoItem> GetUserToDoList()
         {
-            return userToDoList[key: userService.UserId];
+            return userToDoList[key: UserService.UserId];
         }
 
         public void addToDoItem(string ItemName)
         {
-            userToDoList[key: userService.UserId].Add(new toDoItem(ItemName));
+            userToDoList[key: UserService.UserId].Add(new toDoItem(ItemName));
         }
 
         public void changeToDoState(int index, string check)
         {
             if (check == "on")
-                userToDoList[key: userService.UserId][index].ItemState = "checked";
+                userToDoList[key: UserService.UserId][index].ItemState = "checked";
             else
-                userToDoList[key: userService.UserId][index].ItemState = "";
+                userToDoList[key: UserService.UserId][index].ItemState = "";
         }
     }
 }

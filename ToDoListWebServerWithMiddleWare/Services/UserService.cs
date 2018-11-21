@@ -21,8 +21,8 @@ namespace ToDoListWebServerWithMiddleWare.Services
     class UserService
     {
         private static List<userPerson> persList = new List<userPerson>();
-        public int UserId { get; set; }
-        public string UserToken { get; set; }
+        public static int UserId { get; set; }
+        public static string UserToken { get; set; }
 
         static UserService()
         {
@@ -31,7 +31,7 @@ namespace ToDoListWebServerWithMiddleWare.Services
             persList.Add(new userPerson("qwerty2", "Qwerty2"));
         }
 
-        public List<userPerson> getUsers()
+        public static List<userPerson> getUsers()
         {
             return persList;
         }

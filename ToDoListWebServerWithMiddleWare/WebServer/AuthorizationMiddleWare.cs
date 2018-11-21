@@ -20,6 +20,13 @@ namespace ToDoListWebServerWithMiddleWare.WebServer
         {
             Console.WriteLine("enter authorizationMW " + context.Request.Url.AbsoluteUri);
 
+            string token = context.Request.QueryString["token"];
+
+            if (token != "")
+                data.Add("isAuth", true);
+            else
+                data.Add("isAuth", false);
+
             if (next != null)
             {
                 await next.Invoke(context, data);

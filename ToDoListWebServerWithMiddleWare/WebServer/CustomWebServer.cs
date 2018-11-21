@@ -61,10 +61,8 @@ namespace ToDoListWebServerWithMiddleWare.Server
                 MiddleWareBuilder builder = new MiddleWareBuilder();
 
                 await firstMiddleWare.Invoke(context, new System.Collections.Generic.Dictionary<string, object>());
-                
 
                 context.Response.Close();
-
             }
         }
     }
