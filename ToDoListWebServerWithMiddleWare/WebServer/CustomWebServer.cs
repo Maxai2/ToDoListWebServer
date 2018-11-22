@@ -1,4 +1,5 @@
-﻿using System.Collections.Specialized;
+﻿using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.IO;
 using System.Net;
 using System.Net.Http;
@@ -35,7 +36,7 @@ namespace ToDoListWebServerWithMiddleWare.Server
             IConfigurator configurator = new T();
             MiddleWareBuilder builder = new MiddleWareBuilder();
 
-            configurator.ConfiguteMiddleWare(builder);
+            configurator.ConfigureMiddleWare(builder);
             firstMiddleWare = builder.Build();
             return this;
         }
@@ -58,9 +59,7 @@ namespace ToDoListWebServerWithMiddleWare.Server
             {
                 HttpListenerContext context = listener.GetContext();
 
-                MiddleWareBuilder builder = new MiddleWareBuilder();
-
-                await firstMiddleWare.Invoke(context, new System.Collections.Generic.Dictionary<string, object>());
+                await firstMiddleWare.Invoke(context, new Dictionary<string, object>());
 
                 context.Response.Close();
             }

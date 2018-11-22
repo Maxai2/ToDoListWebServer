@@ -34,17 +34,17 @@ namespace ToDoListWebServerWithMiddleWare.WebServer
 
                 strBuilder.Append("<form method='POST' action='http://127.0.0.1:5600/login' style='margin-left: 0 auto;'>" +
                                         "<br>" +
-                                        "<label style = 'font-weight: bold; font-size: 20px;' > Login </ label >" +
+                                        "<label style = 'font-weight: bold; font-size: 20px;'> Login </ label>" +
                                         "<br>" +
                                         "<br>" +
-                                        "<input type = 'text' name = 'login' placeholder = 'Login' required >" +
+                                        "<input type = 'text' name = 'login' placeholder = 'Login' required>" +
                                         "<br>" +
                                         "<br>" +
-                                        "<input type = 'text' name = 'password' placeholder = 'Password' required >" +
+                                        "<input type = 'text' name = 'password' placeholder = 'Password' required>" +
                                         "<br>" +
                                         "<br>" +
-                                        "<input type = 'submit' value = 'Enter' ></ input >" +
-                                   "</form> ");
+                                        "<input type = 'submit' value = 'Enter'></ input>" +
+                                   "</form>");
 
                 context.Response.StatusCode = 200;
                 context.Response.ContentType = "text/html";
@@ -139,17 +139,17 @@ namespace ToDoListWebServerWithMiddleWare.WebServer
                 StringBuilder strBuilder = new StringBuilder();
                 strBuilder.Append("<ol>");
 
-                //int count = 0;
+                int count = 0;
 
-                //var userList = new ToDoService();
+                var userList = new ToDoService();
 
-                //foreach (var elem in userList.GetUserToDoList())
-                //{
-                //    strBuilder.Append($"<li>{elem.ItemName}<form method='POST' action='http://127.0.0.1:5600/toDoList?method=changeState'> <input type='checkbox' name='check' {elem.ItemState}> <input type='hidden' name='id' value={count}> <input type='submit'> </form> </li>");
-                //    count++;
-                //}
+                foreach (var elem in userList.GetUserToDoList())
+                {
+                    strBuilder.Append($"<li>{elem.ItemName}<form method='POST' action='http://127.0.0.1:5600/toDoList?method=changeState'> <input type='checkbox' name='check' {elem.ItemState}> <input type='hidden' name='id' value={count}> <input type='submit'> </form> </li>");
+                    count++;
+                }
 
-                //strBuilder.Append("</ol>");
+                strBuilder.Append("</ol>");
                 strBuilder.Append("<form method='POST' action='http://127.0.0.1:5600/toDoList?method=addToDo'> <label>To do: </label> <input type='text' name='toDoName' required> <input type='submit' value='Add'> </form>");
                 strBuilder.Append("<form method='GET' action='http://127.0.0.1:5600/login'> <input type='submit' value='Log Out'> </form>");
 

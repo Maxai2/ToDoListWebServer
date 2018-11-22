@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace ToDoListWebServerWithMiddleWare.WebServer
 {
@@ -20,9 +23,18 @@ namespace ToDoListWebServerWithMiddleWare.WebServer
         {
             Console.WriteLine("enter authorizationMW " + context.Request.Url.AbsoluteUri);
 
-            string token = context.Request.QueryString["token"];
+            string query;
 
-            if (token != "")
+            using (StreamReader sr = new StreamReader(context.Request.InputStream))
+            {
+                query = sr.ReadToEnd();
+            }
+
+            NameValueCollection res = HttpUtility.ParseQueryString(query);
+
+            string token = res["token"];
+
+            if (token != "" && token != null)
                 data.Add("isAuth", true);
             else
                 data.Add("isAuth", false);

@@ -2,14 +2,14 @@
 {
     public interface IConfigurator
     {
-        void ConfiguteMiddleWare(MiddleWareBuilder builder);
+        void ConfigureMiddleWare(MiddleWareBuilder builder);
     }
 
     public class Configurator : IConfigurator
     {
-        public void ConfiguteMiddleWare(MiddleWareBuilder builder)
+        public void ConfigureMiddleWare(MiddleWareBuilder builder)
         {
-            builder.Use<AuthorizationMiddleWare>().Use<DynamicMiddleWare>();
+            builder.Use<DynamicMiddleWare>().Use<AuthorizationMiddleWare>(); 
         }
     }
 }
