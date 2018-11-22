@@ -24,18 +24,7 @@ namespace ToDoListWebServerWithMiddleWare.WebServer
         {
             Console.WriteLine("enter authorizationMW " + context.Request.Url.AbsoluteUri);
 
-            //string query;
-
-            //using (StreamReader sr = new StreamReader(context.Request.InputStream))
-            //{
-            //    query = sr.ReadToEnd();
-            //}
-
-            //NameValueCollection res = HttpUtility.ParseQueryString(query);
-
             string token = context.Request.QueryString["token"];
-
-            //string token = UserService.UserToken; //?
 
             if (token != "" && token != null)
                 data.Add("isAuth", true);

@@ -25,7 +25,8 @@ namespace ToDoListWebServerWithMiddleWare.WebServer
         {
             Console.WriteLine("enter dynamicMW " + context.Request.Url.AbsoluteUri);
 
-            string path = context.Request.Url.PathAndQuery; //?
+            string path = context.Request.Url.AbsolutePath;
+            string pathQuery = context.Request.Url.Query;
             string method = context.Request.HttpMethod;
 
             if (method == HttpMethod.Get.Method && path == "/login")
@@ -87,7 +88,7 @@ namespace ToDoListWebServerWithMiddleWare.WebServer
                     context.Response.Redirect("http://127.0.0.1:5600/login");
             }
             else
-            if (method == HttpMethod.Get.Method && path == $"/home?token={UserService.UserToken}")
+            if (method == HttpMethod.Get.Method && path == "/home" && pathQuery == $"?token={UserService.UserToken}")
             {
                 if ((bool)data["isAuth"] == false)
                 {
@@ -97,28 +98,15 @@ namespace ToDoListWebServerWithMiddleWare.WebServer
 
                 StringBuilder strBuilder = new StringBuilder();
 
-                //string query;
-
-                //using (StreamReader sr = new StreamReader(context.Request.InputStream))
-                //{
-                //    query = sr.ReadToEnd();
-                //}
-
-                //NameValueCollection res = HttpUtility.ParseQueryString(query);
-
-                //string token = context.Request.QueryString["token"];
-
                 strBuilder.Append("<div style='margin: 0 auto;'>" +
-                                      "<br>" +
+                                      "<br>"+
                                       "<label style = 'font-weight: bold; font-size: 20px;'> Home </label>" +
-                                      "<br>" +
-                                      "<br>" +
-                                      $"<form method = 'GET' action = 'http://127.0.0.1:5600/toDoList?token={UserService.UserToken}'>" +
-                                        "<input type = 'submit' value = 'List ToDo' style = 'height: 30px; width: 100px; background-color: transparent;'>" +
-                                      "</form>" +
-                                      "<form method = 'GET' action = 'http://127.0.0.1:5600/login'>" +
-                                        "<input type = 'submit' value = 'Exit' style = 'height: 30px; width: 100px; background-color: transparent;'>" +
-                                      "</form>" +
+                                      "<br>"+
+                                      "<br>"+
+                                      $"<a href='http://127.0.0.1:5600/toDoList?token={UserService.UserToken}' style = 'height: 30px; width: 100px; background-color: greenyellow'>List ToDo</a>" +
+                                      "<br>"+
+                                      "<br>"+
+                                      "<a href='http://127.0.0.1:5600/login' style = 'height: 30px; width: 100px;'>Exit</a>" +
                                 "</div>");
 
                 context.Response.StatusCode = 200;
@@ -130,7 +118,7 @@ namespace ToDoListWebServerWithMiddleWare.WebServer
                 }
             }
             else
-            if (method == HttpMethod.Get.Method && path == $"/toDoList?")
+            if (method == HttpMethod.Get.Method && path == "/toDoList" && pathQuery == $"?token={UserService.UserToken}")
             {
                 if ((bool)data["isAuth"] == false)
                 {
@@ -164,7 +152,7 @@ namespace ToDoListWebServerWithMiddleWare.WebServer
                 }
             }
             else
-            if (method == HttpMethod.Post.Method && path == $"/toDoList?method=changeState&token={UserService.UserToken}")
+            if (method == HttpMethod.Post.Method && path == "/toDoList" && pathQuery == $"?method=changeState&token={UserService.UserToken}")
             {
                 StringBuilder strBuilder = new StringBuilder();
 
@@ -183,10 +171,10 @@ namespace ToDoListWebServerWithMiddleWare.WebServer
                 ToDoService toDoService = new ToDoService();
 
                 toDoService.changeToDoState(index, che);
-                context.Response.Redirect("http://127.0.0.1:5600/toDoList?");
+                context.Response.Redirect($"http://127.0.0.1:5600/toDoList?token={UserService.UserToken}");
             }
             else
-            if (method == HttpMethod.Post.Method && path == $"/toDoList?method=addToDo&token={UserService.UserToken}")
+            if (method == HttpMethod.Post.Method && path == "/toDoList" && pathQuery == $"?method=addToDo&token={UserService.UserToken}")
             {
                 StringBuilder strBuilder = new StringBuilder();
 
@@ -203,7 +191,7 @@ namespace ToDoListWebServerWithMiddleWare.WebServer
 
                 ToDoService toDoService = new ToDoService();
                 toDoService.addToDoItem(toDo);
-                context.Response.Redirect("http://127.0.0.1:5600/toDoList?");
+                context.Response.Redirect($"http://127.0.0.1:5600/toDoList?token={UserService.UserToken}");
             }
             else
             {
