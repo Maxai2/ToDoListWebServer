@@ -24,9 +24,9 @@ namespace ToDoListWebServerWithMiddleWare.Services
 
         static ToDoService()
         {
-            userToDoList.Add('0', new List<toDoItem>());
-            userToDoList.Add('1', new List<toDoItem>());
-            userToDoList.Add('2', new List<toDoItem>());
+            userToDoList.Add(0, new List<toDoItem>());
+            userToDoList.Add(1, new List<toDoItem>());
+            userToDoList.Add(2, new List<toDoItem>());
         }
 
         public List<toDoItem> GetUserToDoList()

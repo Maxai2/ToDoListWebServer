@@ -7,6 +7,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using ToDoListWebServerWithMiddleWare.Services;
 
 namespace ToDoListWebServerWithMiddleWare.WebServer
 {
@@ -23,16 +24,18 @@ namespace ToDoListWebServerWithMiddleWare.WebServer
         {
             Console.WriteLine("enter authorizationMW " + context.Request.Url.AbsoluteUri);
 
-            string query;
+            //string query;
 
-            using (StreamReader sr = new StreamReader(context.Request.InputStream))
-            {
-                query = sr.ReadToEnd();
-            }
+            //using (StreamReader sr = new StreamReader(context.Request.InputStream))
+            //{
+            //    query = sr.ReadToEnd();
+            //}
 
-            NameValueCollection res = HttpUtility.ParseQueryString(query);
+            //NameValueCollection res = HttpUtility.ParseQueryString(query);
 
-            string token = res["token"];
+            string token = context.Request.QueryString["token"];
+
+            //string token = UserService.UserToken; //?
 
             if (token != "" && token != null)
                 data.Add("isAuth", true);

@@ -58,8 +58,9 @@ namespace ToDoListWebServerWithMiddleWare.Server
             while (true)
             {
                 HttpListenerContext context = listener.GetContext();
+                Dictionary<string, object> pairs = new Dictionary<string, object>();
 
-                await firstMiddleWare.Invoke(context, new Dictionary<string, object>());
+                await firstMiddleWare.Invoke(context, pairs);
 
                 context.Response.Close();
             }
