@@ -26,7 +26,7 @@ namespace ToDoListWebServerWithMiddleWare.WebServer
 
             string token = context.Request.QueryString["token"];
 
-            if (token != "" && token != null)
+            if (token != "" && token != null && token == UserService.UserToken)
                 data.Add("isAuth", true);
             else
                 data.Add("isAuth", false);

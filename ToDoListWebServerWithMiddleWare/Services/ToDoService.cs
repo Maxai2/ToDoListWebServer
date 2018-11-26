@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace ToDoListWebServerWithMiddleWare.Services
 {
-    class toDoItem
+    class ToDoItem
     {
         public string ItemName { get; set; }
         public string ItemState { get; set; }
 
-        public toDoItem(string ItemName)
+        public ToDoItem(string ItemName)
         {
             this.ItemName = ItemName;
             this.ItemState = "";
@@ -20,23 +20,23 @@ namespace ToDoListWebServerWithMiddleWare.Services
 
     class ToDoService
     {
-        private static Dictionary<int, List<toDoItem>> userToDoList = new Dictionary<int, List<toDoItem>>();
+        private static Dictionary<int, List<ToDoItem>> userToDoList = new Dictionary<int, List<ToDoItem>>();
 
         static ToDoService()
         {
-            userToDoList.Add(0, new List<toDoItem>());
-            userToDoList.Add(1, new List<toDoItem>());
-            userToDoList.Add(2, new List<toDoItem>());
+            userToDoList.Add(0, new List<ToDoItem>());
+            userToDoList.Add(1, new List<ToDoItem>());
+            userToDoList.Add(2, new List<ToDoItem>());
         }
 
-        public List<toDoItem> GetUserToDoList()
+        public List<ToDoItem> GetUserToDoList()
         {
             return userToDoList[key: UserService.UserId];
         }
 
         public void addToDoItem(string ItemName)
         {
-            userToDoList[key: UserService.UserId].Add(new toDoItem(ItemName));
+            userToDoList[key: UserService.UserId].Add(new ToDoItem(ItemName));
         }
 
         public void changeToDoState(int index, string check)

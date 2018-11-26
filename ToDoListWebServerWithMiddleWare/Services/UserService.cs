@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace ToDoListWebServerWithMiddleWare.Services
 {
-    class userPerson
+    class UserPerson
     {
         public string Name { get; set; }
         public string Password { get; set; }
 
-        public userPerson(string name, string password)
+        public UserPerson(string name, string password)
         {
             Name = name;
             Password = password;
@@ -20,18 +20,18 @@ namespace ToDoListWebServerWithMiddleWare.Services
 
     class UserService
     {
-        private static List<userPerson> persList = new List<userPerson>();
+        private static List<UserPerson> persList = new List<UserPerson>();
         public static int UserId { get; set; }
         public static string UserToken { get; set; }
 
         static UserService()
         {
-            persList.Add(new userPerson("qwerty", "Qwerty"));
-            persList.Add(new userPerson("qwerty1", "Qwerty1"));
-            persList.Add(new userPerson("qwerty2", "Qwerty2"));
+            persList.Add(new UserPerson("qwerty", "Qwerty"));
+            persList.Add(new UserPerson("qwerty1", "Qwerty1"));
+            persList.Add(new UserPerson("qwerty2", "Qwerty2"));
         }
 
-        public static List<userPerson> getUsers()
+        public static List<UserPerson> getUsers()
         {
             return persList;
         }

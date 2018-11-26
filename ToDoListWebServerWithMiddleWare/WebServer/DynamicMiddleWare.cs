@@ -33,7 +33,7 @@ namespace ToDoListWebServerWithMiddleWare.WebServer
             {
                 StringBuilder strBuilder = new StringBuilder();
 
-                strBuilder.Append("<form method='POST' action='http://127.0.0.1:5600/login' style='margin-left: 0 auto;'>" +
+                strBuilder.Append("<form method='POST' action='/login' style='margin-left: 0 auto;'>" +
                                         "<br>" +
                                         "<label style = 'font-weight: bold; font-size: 20px;'>Login</label>" +
                                         "<br>" +
@@ -55,8 +55,7 @@ namespace ToDoListWebServerWithMiddleWare.WebServer
                     sw.Write(strBuilder.ToString());
                 }
             }
-            else
-            if (method == HttpMethod.Post.Method && path == "/login")
+            else if (method == HttpMethod.Post.Method && path == "/login")
             {
                 string query;
 
@@ -87,72 +86,73 @@ namespace ToDoListWebServerWithMiddleWare.WebServer
                 else
                     context.Response.Redirect("http://127.0.0.1:5600/login");
             }
-            else
-            if (method == HttpMethod.Get.Method && path == "/home" && pathQuery == $"?token={UserService.UserToken}")
+            else if (method == HttpMethod.Get.Method && path == "/home" && pathQuery == $"?token={UserService.UserToken}")
             {
                 if ((bool)data["isAuth"] == false)
                 {
                     context.Response.Redirect("http://127.0.0.1:5600/login");
-                    goto escapeIf;
+                    //goto escapeIf;
                 }
-
-                StringBuilder strBuilder = new StringBuilder();
-
-                strBuilder.Append("<div style='margin: 0 auto;'>" +
-                                      "<br>"+
-                                      "<label style = 'font-weight: bold; font-size: 20px;'> Home </label>" +
-                                      "<br>"+
-                                      "<br>"+
-                                      $"<a href='http://127.0.0.1:5600/toDoList?token={UserService.UserToken}' style = 'height: 30px; width: 100px; background-color: greenyellow'>List ToDo</a>" +
-                                      "<br>"+
-                                      "<br>"+
-                                      "<a href='http://127.0.0.1:5600/login' style = 'height: 30px; width: 100px;'>Exit</a>" +
-                                "</div>");
-
-                context.Response.StatusCode = 200;
-                context.Response.ContentType = "text/html";
-
-                using (StreamWriter sw = new StreamWriter(context.Response.OutputStream))
+                else
                 {
-                    sw.Write(strBuilder.ToString());
+                    StringBuilder strBuilder = new StringBuilder();
+
+                    strBuilder.Append("<div style='margin: 0 auto;'>" +
+                                          "<br>"+
+                                          "<label style = 'font-weight: bold; font-size: 20px;'> Home </label>" +
+                                          "<br>"+
+                                          "<br>"+
+                                          $"<a href='http://127.0.0.1:5600/toDoList?token={UserService.UserToken}' style = 'height: 30px; width: 100px; background-color: greenyellow'>List ToDo</a>" +
+                                          "<br>"+
+                                          "<br>"+
+                                          "<a href='http://127.0.0.1:5600/login' style = 'height: 30px; width: 100px;'>Exit</a>" +
+                                    "</div>");
+
+                    context.Response.StatusCode = 200;
+                    context.Response.ContentType = "text/html";
+
+                    using (StreamWriter sw = new StreamWriter(context.Response.OutputStream))
+                    {
+                        sw.Write(strBuilder.ToString());
+                    }
                 }
             }
-            else
-            if (method == HttpMethod.Get.Method && path == "/toDoList" && pathQuery == $"?token={UserService.UserToken}")
+            else if (method == HttpMethod.Get.Method && path == "/toDoList" && pathQuery == $"?token={UserService.UserToken}")
             {
                 if ((bool)data["isAuth"] == false)
                 {
                     context.Response.Redirect("http://127.0.0.1:5600/login");
-                    goto escapeIf;
+                    //goto escapeIf;
                 }
-
-                StringBuilder strBuilder = new StringBuilder();
-                strBuilder.Append("<ol>");
-
-                int count = 0;
-
-                var userList = new ToDoService();
-
-                foreach (var elem in userList.GetUserToDoList())
+                else
                 {
-                    strBuilder.Append($"<li>{elem.ItemName}<form method='POST' action='http://127.0.0.1:5600/toDoList?method=changeState&token={UserService.UserToken}'> <input type='checkbox' name='check' {elem.ItemState}> <input type='hidden' name='id' value={count}> <input type='submit'> </form> </li>");
-                    count++;
-                }
+                    StringBuilder strBuilder = new StringBuilder();
+                    strBuilder.Append("<ol>");
 
-                strBuilder.Append("</ol>");
-                strBuilder.Append($"<form method='POST' action='http://127.0.0.1:5600/toDoList?method=addToDo&token={UserService.UserToken}'> <label>To do: </label> <input type='text' name='toDoName' required> <input type='submit' value='Add'> </form>");
-                strBuilder.Append("<form method='GET' action='http://127.0.0.1:5600/login'> <input type='submit' value='Log Out'> </form>");
+                    int count = 0;
 
-                context.Response.StatusCode = 200;
-                context.Response.ContentType = "text/html";
+                    var userList = new ToDoService();
 
-                using (StreamWriter sw = new StreamWriter(context.Response.OutputStream))
-                {
-                    sw.Write(strBuilder.ToString());
+                    foreach (var elem in userList.GetUserToDoList())
+                    {
+                        strBuilder.Append($"<li>{elem.ItemName}<form method='POST' action='http://127.0.0.1:5600/toDoList?method=changeState&token={UserService.UserToken}'> <input type='checkbox' name='check' {elem.ItemState}> <input type='hidden' name='id' value={count}> <input type='submit'> </form> </li>");
+                        count++;
+                    }
+
+                    strBuilder.Append("</ol>");
+                    strBuilder.Append($"<form method='POST' action='http://127.0.0.1:5600/toDoList?method=addToDo&token={UserService.UserToken}'> <label>To do: </label> <input type='text' name='toDoName' required> <input type='submit' value='Add'> </form>");
+                    strBuilder.Append("<form method='GET' action='http://127.0.0.1:5600/login'> <input type='submit' value='Log Out'> </form>");
+
+                    context.Response.StatusCode = 200;
+                    context.Response.ContentType = "text/html";
+
+                    using (StreamWriter sw = new StreamWriter(context.Response.OutputStream))
+                    {
+                        sw.Write(strBuilder.ToString());
+                    }
                 }
             }
-            else
-            if (method == HttpMethod.Post.Method && path == "/toDoList" && pathQuery == $"?method=changeState&token={UserService.UserToken}")
+            else if (method == HttpMethod.Post.Method && path == "/toDoList" && pathQuery == $"?method=changeState&token={UserService.UserToken}")
             {
                 StringBuilder strBuilder = new StringBuilder();
 
@@ -173,8 +173,7 @@ namespace ToDoListWebServerWithMiddleWare.WebServer
                 toDoService.changeToDoState(index, che);
                 context.Response.Redirect($"http://127.0.0.1:5600/toDoList?token={UserService.UserToken}");
             }
-            else
-            if (method == HttpMethod.Post.Method && path == "/toDoList" && pathQuery == $"?method=addToDo&token={UserService.UserToken}")
+            else if (method == HttpMethod.Post.Method && path == "/toDoList" && pathQuery == $"?method=addToDo&token={UserService.UserToken}")
             {
                 StringBuilder strBuilder = new StringBuilder();
 
@@ -198,7 +197,7 @@ namespace ToDoListWebServerWithMiddleWare.WebServer
                 context.Response.StatusCode = 404;
             }
 
-            escapeIf:
+            //escapeIf:
 
             if (next != null)
             {
