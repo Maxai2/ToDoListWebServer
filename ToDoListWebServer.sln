@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDoListWebServer", "ToDoLi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDoListWebServerWithMiddleWare", "ToDoListWebServerWithMiddleWare\ToDoListWebServerWithMiddleWare.csproj", "{1C3F8BDE-DC0E-4458-BD0E-04014FD1580C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDoListWebServerWithMVCMiddleWare", "ToDoListWebServerWithMVCMiddleWare\ToDoListWebServerWithMVCMiddleWare.csproj", "{8211E60A-A4CF-4AAE-BFC1-DC47F580E725}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{1C3F8BDE-DC0E-4458-BD0E-04014FD1580C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1C3F8BDE-DC0E-4458-BD0E-04014FD1580C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1C3F8BDE-DC0E-4458-BD0E-04014FD1580C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8211E60A-A4CF-4AAE-BFC1-DC47F580E725}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8211E60A-A4CF-4AAE-BFC1-DC47F580E725}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8211E60A-A4CF-4AAE-BFC1-DC47F580E725}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8211E60A-A4CF-4AAE-BFC1-DC47F580E725}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
