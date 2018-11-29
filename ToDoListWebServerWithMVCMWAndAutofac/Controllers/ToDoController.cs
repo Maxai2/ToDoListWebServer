@@ -9,19 +9,12 @@ namespace ToDoListWebServerWithMVCMWAndAutofac.Controllers
 {
     class ToDoController
     {
-        private Dictionary<string, object> data;
-
-        public ToDoController(Dictionary<string, object> data)
-        {
-            this.data = data;
-        }
-
         public string showList()
         {
-            if ((bool)data["isAuth"] == false)
-                return "<script>window.location = 'http://127.0.0.1:5600/user/login'</script>";
-            else
-            {
+            //if ((bool)data["isAuth"] == false)
+            //    return "<script>window.location = 'http://127.0.0.1:5600/user/login'</script>";
+            //else
+            //{
                 StringBuilder strBuilder = new StringBuilder();
                 strBuilder.Append("<ol>");
 
@@ -40,7 +33,7 @@ namespace ToDoListWebServerWithMVCMWAndAutofac.Controllers
                 strBuilder.Append("<form method='GET' action='http://127.0.0.1:5600/user/login'> <input type='submit' value='Log Out'> </form>");
 
                 return strBuilder.ToString();
-            }
+            //}
         }
 
         public string addToDo(string toDoName)

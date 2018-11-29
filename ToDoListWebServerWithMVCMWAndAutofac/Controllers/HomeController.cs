@@ -9,18 +9,11 @@ namespace ToDoListWebServerWithMVCMWAndAutofac.Controllers
 {
     class HomeController
     {
-        private Dictionary<string, object> data;
-
-        public HomeController(Dictionary<string, object> data)
-        {
-            this.data = data;
-        }
-
         public string enter()
         {
-            if ((bool)data["isAuth"] == false)
-                return "<script>window.location = 'http://127.0.0.1:5600/user/login'</script>";
-            else
+            //if ((bool)data["isAuth"] == false)
+            //    return "<script>window.location = 'http://127.0.0.1:5600/user/login'</script>";
+            //else
                 return "<div style='margin: 0 auto;'>" +
                                           "<br>" +
                                           "<label style = 'font-weight: bold; font-size: 20px;'> Home </label>" +

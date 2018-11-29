@@ -42,8 +42,8 @@ namespace ToDoListWebServerWithMVCMWAndAutofac.WebServer
 
                 Console.WriteLine("exit MVCMiddleWare");
             }
-            //else
-            //    await next.Invoke(context, data);
+            else
+                await next.Invoke(context, data);
         }
 
         private string Execute(HttpListenerRequest request, Dictionary<string, object> data)
@@ -62,7 +62,7 @@ namespace ToDoListWebServerWithMVCMWAndAutofac.WebServer
 
             Assembly curAssembly = Assembly.GetExecutingAssembly();
 
-            Type controllerType = curAssembly.GetType($"WebServerProject.Controllers.{controller}Controller", false, true);
+            Type controllerType = curAssembly.GetType($"ToDoListWebServerWithMVCMWAndAutofac.Controllers.{controller}Controller", false, true);
 
             if (controllerType is null)
                 return null;
@@ -72,7 +72,12 @@ namespace ToDoListWebServerWithMVCMWAndAutofac.WebServer
             if (actionMethod is null)
                 return null;
 
-            var controllerInstance = Activator.CreateInstance(controllerType, data); // new PhonesController
+            if ((bool)data["isAuth"] == false && controller != "user")
+            {
+                return "<script>window.location = 'http://127.0.0.1:5600/user/login'</script>";
+            }
+
+            var controllerInstance = Activator.CreateInstance(controllerType); // new PhonesController
 
             var args = new List<object>();
             NameValueCollection queryParams = null;
@@ -112,11 +117,19 @@ namespace ToDoListWebServerWithMVCMWAndAutofac.WebServer
 
             //var r = (string)actionMethod.Invoke(controllerInstance, args.ToArray());
 
-            var _this = CustomWebServer.IOC.Resolve(controllerType);
-            var methodArgs = args.ToArray();
-            var res = actionMethod.Invoke(_this, methodArgs);
+            try
+            {
+                var _this = CustomWebServer.IOC.Resolve(controllerType);
+                var methodArgs = args.ToArray();
+                var res = actionMethod.Invoke(_this, methodArgs);
 
-            return res as string;
+                return res as string;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw;
+            }
         }
     }
 }

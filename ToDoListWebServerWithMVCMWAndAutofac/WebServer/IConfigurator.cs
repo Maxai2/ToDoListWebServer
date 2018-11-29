@@ -15,9 +15,9 @@ namespace ToDoListWebServerWithMVCMWAndAutofac.WebServer
     {
         public void ConfigureDependencies(ContainerBuilder builder)
         {
+            builder.RegisterType<UserController>();
             builder.RegisterType<HomeController>();
             builder.RegisterType<ToDoController>();
-            builder.RegisterType<UserController>();
 
             builder.RegisterType<ToDoService>().As<IToDoService>();
             builder.RegisterType<UserService>().As<IUserservice>();

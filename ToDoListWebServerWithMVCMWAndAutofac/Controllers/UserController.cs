@@ -9,13 +9,6 @@ namespace ToDoListWebServerWithMVCMWAndAutofac.Controllers
 {
     class UserController
     {
-        private Dictionary<string, object> data;
-
-        public UserController(Dictionary<string, object> data)
-        {
-            this.data = data;
-        }
-
         public string login()
         {
             return "<form method='POST' action='http://127.0.0.1:5600/user/checkLogin' style='margin-left: 0 auto;'>" +
