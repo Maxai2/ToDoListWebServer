@@ -55,6 +55,8 @@
     <Compile Include="Services\IUserservice.cs" />
     <Compile Include="Services\ToDoService.cs" />
     <Compile Include="Services\UserService.cs" />
+    <Compile Include="WebServer\Attributes\AuthorizeAttribute.cs" />
+    <Compile Include="WebServer\Attributes\HttpMethodAttribute.cs" />
     <Compile Include="WebServer\AuthorizationMiddleWare.cs" />
     <Compile Include="WebServer\CustomWebServer.cs" />
     <Compile Include="WebServer\DelegateMiddleWare.cs" />

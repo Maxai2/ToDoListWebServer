@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System.Web;
 using ToDoListWebServerWithMVCMWAndAutofac.Server;
 using ToDoListWebServerWithMVCMWAndAutofac.WebServer;
+using ToDoListWebServerWithMVCMWAndAutofac.WebServer.Attributes;
 
 namespace ToDoListWebServerWithMVCMWAndAutofac.WebServer
 {
@@ -31,19 +32,46 @@ namespace ToDoListWebServerWithMVCMWAndAutofac.WebServer
             var responce = context.Response;
             var writer = new StreamWriter(responce.OutputStream);
 
-            var result = Execute(context.Request, data);
-
-            if (result != null)
+            try
             {
-                responce.ContentType = "text/html";
-                responce.StatusCode = 200;
-                await writer.WriteAsync(result);
-                writer.Close();
+                string resp = Execute(context.Request, data);
 
-                Console.WriteLine("exit MVCMiddleWare");
+                if (resp != null)
+                {
+                    responce.StatusCode = 200;
+                    responce.ContentType = "text/html";
+                    writer.Write(resp);
+                }
+                else
+                {
+                    await next.Invoke(context, data);
+                }
             }
-            else
-                await next.Invoke(context, data);
+            catch (Exception ex)
+            {
+                responce.StatusCode = 500;
+                responce.ContentType = "text/plain";
+                writer.Write(ex.Message);
+            }
+            finally
+            {
+                writer.Close();
+            }
+
+
+            //var result = Execute(context.Request, data);
+
+            //if (result != null)
+            //{
+            //    responce.ContentType = "text/html";
+            //    responce.StatusCode = 200;
+            //    await writer.WriteAsync(result);
+            //    writer.Close();
+
+            //    Console.WriteLine("exit MVCMiddleWare");
+            //}
+            //else
+            //    await next.Invoke(context, data);
         }
 
         private string Execute(HttpListenerRequest request, Dictionary<string, object> data)
@@ -72,17 +100,39 @@ namespace ToDoListWebServerWithMVCMWAndAutofac.WebServer
             if (actionMethod is null)
                 return null;
 
+            var attr = actionMethod.GetCustomAttribute<HttpMethodAttribute>();
+
+            if (attr != null)
+            {
+                if (String.Compare(attr.Method, request.HttpMethod, true) != 0)
+                {
+                    Console.WriteLine($"{attr.Method} - {request.HttpMethod}");
+                    return null;
+                }
+
+            }
+
+
+
+
+
             if ((bool)data["isAuth"] == false && controller != "user")
             {
                 return "<script>window.location = 'http://127.0.0.1:5600/user/login'</script>";
             }
+
+
+
+
+
+
 
             var controllerInstance = Activator.CreateInstance(controllerType); // new PhonesController
 
             var args = new List<object>();
             NameValueCollection queryParams = null;
 
-            if (request.HttpMethod == HttpMethod.Get.Method) // url
+            if (request.HttpMethod == "GET") // url HttpMethod.Get.Method
             {
                 if (urlParts.Length == 2 && actionMethod.GetParameters().Length != 0)
                     return null;
@@ -90,12 +140,19 @@ namespace ToDoListWebServerWithMVCMWAndAutofac.WebServer
                 if (urlParts.Length > 2)
                     queryParams = HttpUtility.ParseQueryString(urlParts[2]);
             }
-            else if (request.HttpMethod == HttpMethod.Post.Method) // form
+            else if (request.HttpMethod == "POST") // form HttpMethod.Post.Method
             {
+                //using (StreamReader sr = new StreamReader(request.InputStream))
+                //{
+                //    var dataForm = sr.ReadToEnd();
+                //    queryParams = HttpUtility.ParseQueryString(dataForm);
+                //}
+
+                string body;
+
                 using (StreamReader sr = new StreamReader(request.InputStream))
                 {
-                    var dataForm = sr.ReadToEnd();
-                    queryParams = HttpUtility.ParseQueryString(dataForm);
+                    body = System.
                 }
             }
             else

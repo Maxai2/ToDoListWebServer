@@ -4,11 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ToDoListWebServerWithMVCMWAndAutofac.Services;
+using ToDoListWebServerWithMVCMWAndAutofac.WebServer.Attributes;
 
 namespace ToDoListWebServerWithMVCMWAndAutofac.Controllers
 {
     class UserController
     {
+        [Authorize("User,Admin")]
+        [HttpMethod("GET")]
         public string login()
         {
             return "<form method='POST' action='http://127.0.0.1:5600/user/checkLogin' style='margin-left: 0 auto;'>" +
@@ -26,6 +29,8 @@ namespace ToDoListWebServerWithMVCMWAndAutofac.Controllers
                    "</form>";
         }
 
+        [Authorize("User,Admin")]
+        [HttpMethod("POST")]
         public string checkLogin(string login, string password)
         {
             var userS = new UserService();

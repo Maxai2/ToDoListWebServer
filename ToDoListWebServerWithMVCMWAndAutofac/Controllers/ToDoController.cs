@@ -4,11 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ToDoListWebServerWithMVCMWAndAutofac.Services;
+using ToDoListWebServerWithMVCMWAndAutofac.WebServer.Attributes;
 
 namespace ToDoListWebServerWithMVCMWAndAutofac.Controllers
 {
     class ToDoController
     {
+        [Authorize("User,Admin")]
+        [HttpMethod("GET")]
         public string showList()
         {
             //if ((bool)data["isAuth"] == false)
@@ -36,6 +39,8 @@ namespace ToDoListWebServerWithMVCMWAndAutofac.Controllers
             //}
         }
 
+        [Authorize("User,Admin")]
+        [HttpMethod("POST")]
         public string addToDo(string toDoName)
         {
             var toDoS = new ToDoService();
@@ -44,6 +49,8 @@ namespace ToDoListWebServerWithMVCMWAndAutofac.Controllers
             return $"<script>window.location = 'http://127.0.0.1:5600/toDo/showList?token={UserService.UserToken}'</script>";
         }
 
+        [Authorize("Admin")]
+        [HttpMethod("POST")]
         public string changeState(int id, string check)
         {
             var toDoS = new ToDoService();
