@@ -10,7 +10,6 @@ namespace ToDoListWebServerWithMVCMWAndAutofac.Controllers
 {
     class UserController
     {
-        [Authorize("User,Admin")]
         [HttpMethod("GET")]
         public string login()
         {
@@ -28,29 +27,29 @@ namespace ToDoListWebServerWithMVCMWAndAutofac.Controllers
                                         "<input type = 'submit' value = 'Enter'/>" +
                    "</form>";
         }
-
-        [Authorize("User,Admin")]
+        
         [HttpMethod("POST")]
         public string checkLogin(string login, string password)
         {
-            var userS = new UserService();
+            //var userS = new UserService();
 
-            var userIndex = userS.getUsers().FindIndex(u => (u.Name == login) && (u.Password == password));
+            //var userIndex = userS.getUsers().FindIndex(u => (u.Name == login) && (u.Password == password));
 
-            if (userIndex != -1)
-            {
-                UserService.UserId = userIndex;
+            //if (userIndex != -1)
+            //{
+            //    UserService.UserId = userIndex;
 
-                byte[] time = BitConverter.GetBytes(DateTime.UtcNow.ToBinary());
-                byte[] key = Guid.NewGuid().ToByteArray();
+            //    byte[] time = BitConverter.GetBytes(DateTime.UtcNow.ToBinary());
+            //    byte[] key = Guid.NewGuid().ToByteArray();
 
-                string token = Convert.ToBase64String(time.Concat(key).ToArray());
-                UserService.UserToken = token;
+            //    string token = Convert.ToBase64String(time.Concat(key).ToArray());
+            //    UserService.UserToken = token;
 
-                return $"<script>window.location = 'http://127.0.0.1:5600/home/enter?token={token}'</script>";
-            }
-            else
-                return "<script>window.location = 'http://127.0.0.1:5600/user/login'</script>";
+            //return $"<script>window.location = 'http://127.0.0.1:5600/home/enter?token={token}'</script>";
+            return "<script>window.location = 'http://127.0.0.1:5600/home/enter'</script>";
+            //}
+            //else
+            //    return "<script>window.location = 'http://127.0.0.1:5600/user/login'</script>";
         }
     }
 }

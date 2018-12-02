@@ -112,20 +112,25 @@ namespace ToDoListWebServerWithMVCMWAndAutofac.WebServer
 
             }
 
+            var attrAuth = actionMethod.GetCustomAttribute<AuthorizeAttribute>();
 
-
-
-
-            if ((bool)data["isAuth"] == false && controller != "user")
+            if (attrAuth != null)
             {
-                return "<script>window.location = 'http://127.0.0.1:5600/user/login'</script>";
+                if ((bool)data["isAuth"] == false && controller == "user")
+                {
+                    //return "HTTP ERROR 401: Not authorizade";
+                    return "<script>window.location = 'http://127.0.0.1:5600/user/login'</script>";
+                }
+
+                if (attrAuth.Roles != null)
+                {
+                    var roles = attrAuth.Roles.Split(',');
+                    if (!roles.Contains(data["Role"]))
+                    {
+                        return "HTTP ERROR 401: Accec Denied!";
+                    }
+                }
             }
-
-
-
-
-
-
 
             var controllerInstance = Activator.CreateInstance(controllerType); // new PhonesController
 
@@ -150,10 +155,11 @@ namespace ToDoListWebServerWithMVCMWAndAutofac.WebServer
 
                 string body;
 
-                using (StreamReader sr = new StreamReader(request.InputStream))
+                using (StreamReader reader = new StreamReader(request.InputStream))
                 {
-                    body = System.
+                    body = reader.ReadToEnd();
                 }
+                queryParams = HttpUtility.ParseQueryString(body);
             }
             else
                 return null;
@@ -173,20 +179,12 @@ namespace ToDoListWebServerWithMVCMWAndAutofac.WebServer
                 return null;
 
             //var r = (string)actionMethod.Invoke(controllerInstance, args.ToArray());
+            
+            var _this = CustomWebServer.IOC.Resolve(controllerType);
+            var methodArgs = args.ToArray();
+            var res = actionMethod.Invoke(_this, methodArgs);
 
-            try
-            {
-                var _this = CustomWebServer.IOC.Resolve(controllerType);
-                var methodArgs = args.ToArray();
-                var res = actionMethod.Invoke(_this, methodArgs);
-
-                return res as string;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                throw;
-            }
+            return res as string;
         }
     }
 }
