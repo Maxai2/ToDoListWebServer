@@ -119,7 +119,7 @@ namespace ToDoListWebServerWithMVCMWAndAutofac.WebServer
                 if ((bool)data["isAuth"] == false && controller == "user")
                 {
                     //return "HTTP ERROR 401: Not authorizade";
-                    return "<script>window.location = 'http://127.0.0.1:5600/user/login'</script>";
+                    return "<script>window.location = 'http://127.0.0.1:5600/user/login?error='HTTP ERROR 401: Not authorizade''</script>";
                 }
 
                 if (attrAuth.Roles != null)
@@ -127,7 +127,8 @@ namespace ToDoListWebServerWithMVCMWAndAutofac.WebServer
                     var roles = attrAuth.Roles.Split(',');
                     if (!roles.Contains(data["Role"]))
                     {
-                        return "HTTP ERROR 401: Accec Denied!";
+                        //return "HTTP ERROR 401: Accec Denied!";
+                        return "<script>window.location = 'http://127.0.0.1:5600/user/login?error='HTTP ERROR 401: Accec Denied!''</script>";
                     }
                 }
             }
