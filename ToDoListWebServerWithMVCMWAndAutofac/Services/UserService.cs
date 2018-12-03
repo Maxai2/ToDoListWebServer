@@ -23,6 +23,7 @@ namespace ToDoListWebServerWithMVCMWAndAutofac.Services
         private static List<UserPerson> persList = new List<UserPerson>();
         public static int UserId { get; set; }
         public static string UserToken { get; set; }
+        public static string ErrorMes { get; set; }
 
         static UserService()
         {

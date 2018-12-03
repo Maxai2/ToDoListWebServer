@@ -11,7 +11,7 @@ namespace ToDoListWebServerWithMVCMWAndAutofac.Controllers
     class UserController
     {
         [HttpMethod("GET")]
-        public string login(string error)
+        public string login()
         {
             return "<form method='POST' action='http://127.0.0.1:5600/user/checkLogin' style='margin-left: 0 auto;'>" +
                                         "<br>" +
@@ -26,7 +26,7 @@ namespace ToDoListWebServerWithMVCMWAndAutofac.Controllers
                                         "<br>" +
                                         "<input type = 'submit' value = 'Enter'/>" +
                    "</form>" +
-                   $"<span>{error}</span>";
+                   $"<span style='color: red;'>{UserService.ErrorMes}</span>";
         }
         
         [HttpMethod("POST")]

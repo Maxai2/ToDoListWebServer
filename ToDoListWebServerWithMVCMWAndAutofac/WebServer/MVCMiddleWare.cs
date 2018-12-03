@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using ToDoListWebServerWithMVCMWAndAutofac.Server;
+using ToDoListWebServerWithMVCMWAndAutofac.Services;
 using ToDoListWebServerWithMVCMWAndAutofac.WebServer;
 using ToDoListWebServerWithMVCMWAndAutofac.WebServer.Attributes;
 
@@ -116,10 +117,11 @@ namespace ToDoListWebServerWithMVCMWAndAutofac.WebServer
 
             if (attrAuth != null)
             {
-                if ((bool)data["isAuth"] == false && controller == "user")
+                if ((bool)data["isAuth"] == false)
                 {
                     //return "HTTP ERROR 401: Not authorizade";
-                    return "<script>window.location = 'http://127.0.0.1:5600/user/login?error='HTTP ERROR 401: Not authorizade''</script>";
+                    UserService.ErrorMes = "HTTP ERROR 401: Not authorizade";
+                    return "<script>window.location = 'http://127.0.0.1:5600/user/login'</script>";
                 }
 
                 if (attrAuth.Roles != null)
@@ -128,10 +130,13 @@ namespace ToDoListWebServerWithMVCMWAndAutofac.WebServer
                     if (!roles.Contains(data["Role"]))
                     {
                         //return "HTTP ERROR 401: Accec Denied!";
-                        return "<script>window.location = 'http://127.0.0.1:5600/user/login?error='HTTP ERROR 401: Accec Denied!''</script>";
+                        UserService.ErrorMes = "HTTP ERROR 401: Accec Denied!";
+                        return "<script>window.location = 'http://127.0.0.1:5600/user/login'</script>";
                     }
                 }
             }
+            else
+                UserService.ErrorMes = "";
 
             var controllerInstance = Activator.CreateInstance(controllerType); // new PhonesController
 
