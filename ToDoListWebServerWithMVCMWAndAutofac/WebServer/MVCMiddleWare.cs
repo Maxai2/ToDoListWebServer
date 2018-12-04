@@ -113,17 +113,22 @@ namespace ToDoListWebServerWithMVCMWAndAutofac.WebServer
 
             }
 
+            if ((bool)data["isAuth"] == false)
+            {
+                //return "HTTP ERROR 401: Not authorizade";
+                UserService.ErrorMes = "HTTP ERROR 401: Not authorize";
+                return "<script>window.location = 'http://127.0.0.1:5600/user/login'</script>";
+            }
+
+            if ((bool)data["isAuth"] == true)
+            {
+                UserService.ErrorMes = "";
+            }
+
             var attrAuth = actionMethod.GetCustomAttribute<AuthorizeAttribute>();
 
             if (attrAuth != null)
             {
-                if ((bool)data["isAuth"] == false)
-                {
-                    //return "HTTP ERROR 401: Not authorizade";
-                    UserService.ErrorMes = "HTTP ERROR 401: Not authorizade";
-                    return "<script>window.location = 'http://127.0.0.1:5600/user/login'</script>";
-                }
-
                 if (attrAuth.Roles != null)
                 {
                     var roles = attrAuth.Roles.Split(',');
@@ -135,8 +140,6 @@ namespace ToDoListWebServerWithMVCMWAndAutofac.WebServer
                     }
                 }
             }
-            else
-                UserService.ErrorMes = "";
 
             var controllerInstance = Activator.CreateInstance(controllerType); // new PhonesController
 
