@@ -25,32 +25,59 @@ namespace ToDoListWebServerWithMVCMWAndAutofac.Controllers
                                         "<br>" +
                                         "<br>" +
                                         "<input type = 'submit' value = 'Enter'/>" +
-                   "</form>" +
-                   $"<span style='color: red;'>{UserService.ErrorMes}</span>";
+                    "</form>";// +
+                    //$"<span style='color: red;'>{UserService.ErrorMes}</span> ";
         }
         
         [HttpMethod("POST")]
         public string checkLogin(string login, string password)
         {
-            //var userS = new UserService();
+            var userS = new UserService();
 
-            //var userIndex = userS.getUsers().FindIndex(u => (u.Name == login) && (u.Password == password));
+            var userIndex = userS.getUsers().FindIndex(u => (u.Name == login) && (u.Password == password));
 
-            //if (userIndex != -1)
+            if (userIndex != -1)
+            {
+                UserService.UserId = userIndex;
+
+                byte[] time = BitConverter.GetBytes(DateTime.UtcNow.ToBinary());
+                byte[] key = Guid.NewGuid().ToByteArray();
+
+                string token = Convert.ToBase64String(time.Concat(key).ToArray());
+                UserService.UserToken = token;
+
+                switch (userIndex)
+                {
+                    case 0:
+                        UserService.UserRole = "User";
+                        break;
+                    case 1:
+                        UserService.UserRole = "Admin";
+                        break;
+                    case 3:
+                        UserService.UserRole = "Guest";
+                        break;
+                }
+
+
+                return $"<script>window.location = 'http://127.0.0.1:5600/home/enter'</script>";
+                //return $"<script>window.location = 'http://127.0.0.1:5600/home/enter?token={token}&role={UserService.UserRole}'</script>";
+            }
+            else
+                return "<script>window.location = 'http://127.0.0.1:5600/user/login'</script>";
+
+            //if (UserService.ErrorMes == "")
             //{
-            //    UserService.UserId = userIndex;
-
-            //    byte[] time = BitConverter.GetBytes(DateTime.UtcNow.ToBinary());
-            //    byte[] key = Guid.NewGuid().ToByteArray();
-
-            //    string token = Convert.ToBase64String(time.Concat(key).ToArray());
-            //    UserService.UserToken = token;
-
-            //return $"<script>window.location = 'http://127.0.0.1:5600/home/enter?token={token}'</script>";
-            return "<script>window.location = 'http://127.0.0.1:5600/home/enter'</script>";
+            //    return "<script>window.location = 'http://127.0.0.1:5600/home/enter'</script>";
             //}
             //else
-            //    return "<script>window.location = 'http://127.0.0.1:5600/user/login'</script>";
+            //{
+            //    return "<div>" +
+            //        $"<span style='color: red;'>{UserService.ErrorMes}</span> " +
+            //        "<br/>" +
+            //        "<a href='http://127.0.0.1:5600/user/login'>Back to Login</a>" +
+            //        "</div>";
+            //}
         }
     }
 }

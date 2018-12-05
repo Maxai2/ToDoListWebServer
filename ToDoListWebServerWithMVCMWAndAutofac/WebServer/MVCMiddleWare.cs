@@ -39,6 +39,11 @@ namespace ToDoListWebServerWithMVCMWAndAutofac.WebServer
 
                 if (resp != null)
                 {
+                    if (context.Request.Url.AbsolutePath == "/user/checkLogin") {
+                        responce.Cookies.Add(new Cookie("role", $"{UserService.UserRole}", "/"));
+                        responce.Cookies.Add(new Cookie("token", $"{UserService.UserToken}", "/"));
+                    }
+
                     responce.StatusCode = 200;
                     responce.ContentType = "text/html";
                     writer.Write(resp);
@@ -113,33 +118,34 @@ namespace ToDoListWebServerWithMVCMWAndAutofac.WebServer
 
             }
 
-            if ((bool)data["isAuth"] == false)
-            {
-                //return "HTTP ERROR 401: Not authorizade";
-                UserService.ErrorMes = "HTTP ERROR 401: Not authorize";
-                return "<script>window.location = 'http://127.0.0.1:5600/user/login'</script>";
-            }
-
-            if ((bool)data["isAuth"] == true)
-            {
-                UserService.ErrorMes = "";
-            }
-
             var attrAuth = actionMethod.GetCustomAttribute<AuthorizeAttribute>();
 
             if (attrAuth != null)
             {
+                if ((bool)data["isAuth"] == false)
+                {
+                    UserService.ErrorMes = "HTTP ERROR 401: Not authorize";
+                    //return "<script>window.location = 'http://127.0.0.1:5600/user/login'</script>";
+                }
+
                 if (attrAuth.Roles != null)
                 {
                     var roles = attrAuth.Roles.Split(',');
+
                     if (!roles.Contains(data["Role"]))
                     {
-                        //return "HTTP ERROR 401: Accec Denied!";
                         UserService.ErrorMes = "HTTP ERROR 401: Accec Denied!";
-                        return "<script>window.location = 'http://127.0.0.1:5600/user/login'</script>";
+                        //return "<script>window.location = 'http://127.0.0.1:5600/user/login'</script>";
                     }
+                    else
+                        UserService.ErrorMes = "";
                 }
             }
+
+            //if ((bool)data["isAuth"] == true)
+            //{
+            //    UserService.ErrorMes = "";
+            //}
 
             var controllerInstance = Activator.CreateInstance(controllerType); // new PhonesController
 
@@ -192,6 +198,8 @@ namespace ToDoListWebServerWithMVCMWAndAutofac.WebServer
             var _this = CustomWebServer.IOC.Resolve(controllerType);
             var methodArgs = args.ToArray();
             var res = actionMethod.Invoke(_this, methodArgs);
+
+            
 
             return res as string;
         }

@@ -24,12 +24,13 @@ namespace ToDoListWebServerWithMVCMWAndAutofac.Services
         public static int UserId { get; set; }
         public static string UserToken { get; set; }
         public static string ErrorMes { get; set; }
+        public static string UserRole { get; set; }
 
         static UserService()
         {
-            persList.Add(new UserPerson("qwerty", "Qwerty"));
-            persList.Add(new UserPerson("qwerty1", "Qwerty1"));
-            persList.Add(new UserPerson("qwerty2", "Qwerty2"));
+            persList.Add(new UserPerson("qwerty", "Qwerty"));   // User
+            persList.Add(new UserPerson("qwerty1", "Qwerty1")); // Admin
+            persList.Add(new UserPerson("qwerty2", "Qwerty2")); // Guest
         }
 
         public List<UserPerson> getUsers()

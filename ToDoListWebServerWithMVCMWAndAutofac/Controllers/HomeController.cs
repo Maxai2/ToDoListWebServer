@@ -14,16 +14,27 @@ namespace ToDoListWebServerWithMVCMWAndAutofac.Controllers
         [HttpMethod("GET")]
         public string enter()
         {
-            return "<div style='margin: 0 auto;'>" +
-                                        "<br>" +
-                                        "<label style = 'font-weight: bold; font-size: 20px;'> Home </label>" +
-                                        "<br>" +
-                                        "<br>" +
-                                        $"<a href='http://127.0.0.1:5600/toDo/showList?token={UserService.UserToken}' style = 'height: 30px; width: 100px; background-color: greenyellow'>List ToDo</a>" +
-                                        "<br>" +
-                                        "<br>" +
-                                        "<a href='http://127.0.0.1:5600/user/login' style = 'height: 30px; width: 100px;'>Exit</a>" +
-                                "</div>";
+            if (UserService.ErrorMes == "")
+            {
+                return "<div style='margin: 0 auto;'>" +
+                                            "<br>" +
+                                            "<label style = 'font-weight: bold; font-size: 20px;'> Home </label>" +
+                                            "<br>" +
+                                            "<br>" +
+                                            $"<a href='http://127.0.0.1:5600/toDo/showList?token={UserService.UserToken}' style = 'height: 30px; width: 100px; background-color: greenyellow'>List ToDo</a>" +
+                                            "<br>" +
+                                            "<br>" +
+                                            "<a href='http://127.0.0.1:5600/user/login' style = 'height: 30px; width: 100px;'>Exit</a>" +
+                                    "</div>";
+            }
+            else
+            {
+                return "<div>" +
+                    $"<span style='color: red;'>{UserService.ErrorMes}</span> " +
+                    "<br/>" +
+                    "<a href='http://127.0.0.1:5600/user/login'>Back to Login</a>" +
+                    "</div>";
+            }
         }
     }
 }

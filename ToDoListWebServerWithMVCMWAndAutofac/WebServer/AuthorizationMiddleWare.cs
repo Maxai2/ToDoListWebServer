@@ -24,26 +24,41 @@ namespace ToDoListWebServerWithMVCMWAndAutofac.WebServer
         {
             Console.WriteLine("enter authorizationMW " + context.Request.Url.AbsoluteUri);
 
-            //string token = context.Request.QueryString["token"];
+            var cookie = context.Request.Cookies;
 
-            var token = context.Request.Cookies["token"];
+            string token = "";
+            string role = "";
 
-            data.Add("isAuth", token != null ? true : false);
+            if (cookie != null)
+            {
+                token = cookie["token"]?.Value;
+                role = cookie["role"]?.Value;
+            }
 
-            //if (token != "" && token != null && token == UserService.UserToken)
+            //var token = context.Request.Cookies["token"];
+
+            //data.Add("isAuth", token != null ? true : false);
 
             //if (token != null)
-            //    data.Add("isAuth", true);
-            //else
-            //    data.Add("isAuth", false);
+
+            if (token != "" && token != null)
+                data.Add("isAuth", true);
+            else
+                data.Add("isAuth", false);
 
             //if (next != null)
             //{
             //    await next.Invoke(context, data);
             //}
 
-            var role = context.Request.Cookies["role"];
-            data.Add("Role", role?.Value ?? "Guest");
+            //var role = context.Request.QueryString["role"];
+
+            //data.Add("Role", role?.Value ?? "Guest");
+
+            if (role != "" && role != null)
+                data.Add("Role", role);
+            else
+                data.Add("Role", "Guest");
 
             await next.Invoke(context, data);
 
